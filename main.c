@@ -18,6 +18,10 @@ const Clay_Color COLOR_RED = (Clay_Color) {168, 66, 28, 255};
 const Clay_Color COLOR_RED_HOVER = (Clay_Color) {148, 46, 8, 255};
 const Clay_Color COLOR_ORANGE = (Clay_Color) {225, 138, 50, 255};
 const Clay_Color COLOR_BLUE = (Clay_Color) {111, 173, 162, 255};
+const Clay_Color COLOR_WHITE = (Clay_Color) {255, 255, 255, 255};
+const Clay_Color COLOR_BLACK = (Clay_Color) {0, 0, 0, 255};
+
+
 
 // Colors for top stripe
 const Clay_Color COLOR_TOP_BORDER_1 = (Clay_Color) {168, 66, 28, 255};
@@ -63,46 +67,17 @@ Clay_String* FrameAllocateString(Clay_String string) {
     return allocated;
 }
 
-Clay_Color ColorLerp(Clay_Color a, Clay_Color b, float amount) {
-    return (Clay_Color) {
-        .r = a.r + (b.r - a.r) * amount,
-        .g = a.g + (b.g - a.g) * amount,
-        .b = a.b + (b.b - a.b) * amount,
-        .a = a.a + (b.a - a.a) * amount,
-    };
-}
-
-void RendererButtonActive(Clay_String text) {
-    CLAY({
-        .layout = { .sizing = {CLAY_SIZING_FIXED(300) }, .padding = CLAY_PADDING_ALL(16) },
-        .backgroundColor = Clay_Hovered() ? COLOR_RED_HOVER : COLOR_RED,
-        .cornerRadius = CLAY_CORNER_RADIUS(10),
-        .userData = FrameAllocateCustomData((CustomHTMLData) { .disablePointerEvents = true, .cursorPointer = true })
-    }) {
-        CLAY_TEXT(text, CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_LIGHT }));
-    }
-}
-
-void RendererButtonInactive(Clay_String text, size_t rendererIndex) {
-    CLAY({
-        .layout = { .sizing = {CLAY_SIZING_FIXED(300)}, .padding = CLAY_PADDING_ALL(16) },
-        .border = { .width = {2, 2, 2, 2}, .color = COLOR_RED },
-        .backgroundColor = Clay_Hovered() ? COLOR_LIGHT_HOVER : COLOR_LIGHT,
-        .cornerRadius = CLAY_CORNER_RADIUS(10),
-        .userData = FrameAllocateCustomData((CustomHTMLData) { .disablePointerEvents = true, .cursorPointer = true })
-    }) {
-        CLAY_TEXT(text, CLAY_TEXT_CONFIG({ .fontSize = 28, .fontId = FONT_ID_BODY_36, .textColor = COLOR_RED }));
-    }
-}
-
-typedef struct
-{
-    Clay_Vector2 clickOrigin;
-    Clay_Vector2 positionOrigin;
-    bool mouseDown;
-} ScrollbarData;
-
 float animationLerpValue = -1.0f;
+
+void Title_Card(){
+    CLAY({
+        .id = CLAY_ID("TitleCard"),
+        .layout = {.layoutDirection = CLAY_LEFT_TO_RIGHT, .sizing = {(CLAY_SIZING_GROW(0))}, .padding = {32, 32, 16}},
+        .aspectRatio = {4.f / 3.f},
+        .border = { .width = {2, 2, 2, 2}, .color = COLOR_RED },
+
+    }){}
+}
 
 Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
     Clay_BeginLayout();
@@ -122,70 +97,34 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
                     CLAY_TEXT(CLAY_STRING("DV"), &headerTextConfig);
                     CLAY({ .id = CLAY_ID("Spacer"), .layout = { .sizing = { .width = CLAY_SIZING_GROW(0) } } }) {}
                     if (!mobileScreen) {
-                        // CLAY({ .id = CLAY_ID("LinkExamplesOuter"), .layout = { .padding = {8, 8} } }) {
-                        //     CLAY_TEXT(CLAY_STRING("GitHub"), CLAY_TEXT_CONFIG({
-                        //         .userData = FrameAllocateCustomData((CustomHTMLData) {
-                        //             .link = CLAY_STRING("https://github.com/DeeVi-conf")
-                        //         }),
-                        //         .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = {255, 255, 255, 255} }));
-                        // }
-                        // CLAY({ .id = CLAY_ID("LinkDocsOuter"), .layout = { .padding = {8, 8} } }) {
-                        //     CLAY_TEXT(CLAY_STRING("LinkdIn"), CLAY_TEXT_CONFIG({
-                        //         .userData = FrameAllocateCustomData((CustomHTMLData) { .link = CLAY_STRING("https://github.com/nicbarker/clay/blob/main/README.md") }),
-                        //         .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = {61, 26, 5, 255} })
-                        //     );
-                        // }
+
                     }
-                    // CLAY({
-                    //     .layout = { .padding = {16, 16, 6, 6} },
-                    //     .backgroundColor = Clay_Hovered() ? COLOR_LIGHT_HOVER : COLOR_LIGHT,
-                    //     .border = { .width = {2, 2, 2, 2}, .color = COLOR_RED },
-                    //     .cornerRadius = CLAY_CORNER_RADIUS(10),
-                    //     .userData = FrameAllocateCustomData((CustomHTMLData) { .link = CLAY_STRING("https://discord.gg/b4FTWkxdvT") }),
-                    // }) {
-                    //     CLAY_TEXT(CLAY_STRING("Discord"), CLAY_TEXT_CONFIG({
-                    //         .userData = FrameAllocateCustomData((CustomHTMLData) { .disablePointerEvents = true }),
-                    //         .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = {61, 26, 5, 255} }));
-                    // }
                     CLAY({
                         .layout = { .padding = {16, 16, 6, 6} },
-                        .backgroundColor = Clay_Hovered() ? COLOR_LIGHT_HOVER : COLOR_LIGHT,
-                        .border = { .width = {2, 2, 2, 2}, .color = COLOR_RED },
+                        .backgroundColor = Clay_Hovered() ? (Clay_Color){255, 255, 255, 255} : (Clay_Color){0, 0, 0, 255},
+                        .border = { .width = {2, 2, 2, 2}, .color = (Clay_Color){255, 255, 255, 255} },
                         .cornerRadius = CLAY_CORNER_RADIUS(10),
                         .userData = FrameAllocateCustomData((CustomHTMLData) { .link = CLAY_STRING("https://github.com/DeeVi-conf") }),
                     }) {
                         CLAY_TEXT(CLAY_STRING("Github"), CLAY_TEXT_CONFIG({
                             .userData = FrameAllocateCustomData((CustomHTMLData) { .disablePointerEvents = true }),
-                            .fontId = FONT_ID_BODY_24, .fontSize = 24, .textColor = {61, 26, 5, 255} }));
+                            .fontId = FONT_ID_BODY_24, .fontSize = 24, 
+                            .textColor = Clay_Hovered()? (Clay_Color){0,0,0,255} : (Clay_Color){255, 255, 255, 255} 
+                        }));
                     }
                 }
-        // Clay_LayoutConfig topBorderConfig = (Clay_LayoutConfig) { .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIXED(4) }};
-        // CLAY({ .id = CLAY_ID("TopBorder1"), .layout = topBorderConfig, .backgroundColor = COLOR_TOP_BORDER_5 }) {}
-        // CLAY({ .id = CLAY_ID("TopBorder2"), .layout = topBorderConfig, .backgroundColor = COLOR_TOP_BORDER_4 }) {}
-        // CLAY({ .id = CLAY_ID("TopBorder3"), .layout = topBorderConfig, .backgroundColor = COLOR_TOP_BORDER_3 }) {}
-        // CLAY({ .id = CLAY_ID("TopBorder4"), .layout = topBorderConfig, .backgroundColor = COLOR_TOP_BORDER_2 }) {}
-        // CLAY({ .id = CLAY_ID("TopBorder5"), .layout = topBorderConfig, .backgroundColor = COLOR_TOP_BORDER_1 }) {}
+        CLAY({ .id = CLAY_ID("TopBorder"), .layout = { .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIXED(4) }}, .backgroundColor = COLOR_WHITE }) {}
         CLAY({ .id = CLAY_ID("OuterScrollContainer"),
             .layout = { .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM },
             .clip = { .vertical = true, .childOffset = Clay_GetScrollOffset() },
             .border = { .width = { .betweenChildren = 2 }, .color = COLOR_RED }
-        }) {
-            if (mobileScreen) {
-                // LandingPageMobile();
-                // FeatureBlocksMobile();
-                // DeclarativeSyntaxPageMobile();
-                // HighPerformancePageMobile(lerpValue);
-                // RendererPageMobile();
-            } else {
-                // LandingPageDesktop();
-                // FeatureBlocksDesktop();
-                // DeclarativeSyntaxPageDesktop();
-                // HighPerformancePageDesktop(lerpValue);
-                // RendererPageDesktop();
-                // DebuggerPageDesktop();
+            }) {
+                if (mobileScreen) {
+                } else {
+//                    Title_Card();
+                }
             }
         }
-    }
 
     return Clay_EndLayout();
 }
