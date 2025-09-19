@@ -81,6 +81,7 @@ void Title_Card(){
 
 Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
     Clay_BeginLayout();
+    Clay_SetDebugModeEnabled(true);
     CLAY({ 
         .id = CLAY_ID("OuterContainer"), 
         .layout = { .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) } }, 
@@ -92,13 +93,10 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
                     .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIXED(50) }, 
                     .childAlignment = { 0, CLAY_ALIGN_Y_CENTER }, 
                     .childGap = 16, 
-                    .padding = { 32, 32 } 
+                    .padding = { 32, 32, 0, 0 } 
                 } }) {
                     CLAY_TEXT(CLAY_STRING("DV"), &headerTextConfig);
                     CLAY({ .id = CLAY_ID("Spacer"), .layout = { .sizing = { .width = CLAY_SIZING_GROW(0) } } }) {}
-                    if (!mobileScreen) {
-
-                    }
                     CLAY({
                         .layout = { .padding = {16, 16, 6, 6} },
                         .backgroundColor = Clay_Hovered() ? (Clay_Color){255, 255, 255, 255} : (Clay_Color){0, 0, 0, 255},
@@ -109,7 +107,8 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
                         CLAY_TEXT(CLAY_STRING("Github"), CLAY_TEXT_CONFIG({
                             .userData = FrameAllocateCustomData((CustomHTMLData) { .disablePointerEvents = true }),
                             .fontId = FONT_ID_BODY_24, .fontSize = 24, 
-                            .textColor = Clay_Hovered()? (Clay_Color){0,0,0,255} : (Clay_Color){255, 255, 255, 255} 
+                            .textColor = Clay_Hovered()? (Clay_Color){0,0,0,255} : (Clay_Color){255, 255, 255, 255}, 
+                            .textAlignment =  CLAY_TEXT_ALIGN_CENTER
                         }));
                     }
                 }
