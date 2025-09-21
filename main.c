@@ -36,9 +36,11 @@ const Clay_Color COLOR_BLOB_BORDER_3 = (Clay_Color) {225, 138, 50, 255};
 const Clay_Color COLOR_BLOB_BORDER_4 = (Clay_Color) {236, 159, 70, 255};
 const Clay_Color COLOR_BLOB_BORDER_5 = (Clay_Color) {240, 189, 100, 255};
 
+enum typeface {QUICKSAND, CALISTOGA, EVANGELION };
+
 #define RAYLIB_VECTOR2_TO_CLAY_VECTOR2(vector) (Clay_Vector2) { .x = (vector).x, .y = (vector).y }
 
-Clay_TextElementConfig headerTextConfig = (Clay_TextElementConfig) { .fontId = 2, .fontSize = 24, .textColor = {255, 255, 255, 255} };
+Clay_TextElementConfig headerTextConfig = (Clay_TextElementConfig) { .fontId = QUICKSAND, .fontSize = 24, .textColor = {255, 255, 255, 255} };
 
 typedef struct {
     void* memory;
@@ -72,16 +74,27 @@ float animationLerpValue = -1.0f;
 void Title_Card(){
     CLAY({
         .id = CLAY_ID("TitleCard"),
-        .layout = {.layoutDirection = CLAY_LEFT_TO_RIGHT, .sizing = {(CLAY_SIZING_GROW(0))}, .padding = {32, 32, 16}},
-        .aspectRatio = {4.f / 3.f},
-        .border = { .width = {2, 2, 2, 2}, .color = COLOR_RED },
-
-    }){}
+        .layout = {.layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = {(CLAY_SIZING_GROW(0)), CLAY_SIZING_FIT(.min=900.f)}, .padding = {32, 32, 0, 0}},
+        .backgroundColor = COLOR_BLACK,
+    })
+    {CLAY_TEXT(CLAY_STRING("DEEVI"), CLAY_TEXT_CONFIG({
+        .fontId = EVANGELION, .fontSize = 120,
+        .textColor = COLOR_WHITE
+    }));
+    CLAY_TEXT(CLAY_STRING("GRAPHICS"), CLAY_TEXT_CONFIG({
+        .fontId = EVANGELION, .fontSize = 120,
+        .textColor = COLOR_WHITE
+    }));
+    CLAY_TEXT(CLAY_STRING("PROGRAMMING"), CLAY_TEXT_CONFIG({
+        .fontId = EVANGELION, .fontSize = 200,
+        .textColor = COLOR_WHITE
+    }));
+    }
 }
 
 Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
     Clay_BeginLayout();
-    Clay_SetDebugModeEnabled(true);
+    //Clay_SetDebugModeEnabled(true);
     CLAY({ 
         .id = CLAY_ID("OuterContainer"), 
         .layout = { .layoutDirection = CLAY_TOP_TO_BOTTOM, .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) } }, 
@@ -106,7 +119,7 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
                     }) {
                         CLAY_TEXT(CLAY_STRING("Github"), CLAY_TEXT_CONFIG({
                             .userData = FrameAllocateCustomData((CustomHTMLData) { .disablePointerEvents = true }),
-                            .fontId = FONT_ID_BODY_24, .fontSize = 24, 
+                            .fontId = QUICKSAND, .fontSize = 24, 
                             .textColor = Clay_Hovered()? (Clay_Color){0,0,0,255} : (Clay_Color){255, 255, 255, 255}, 
                             .textAlignment =  CLAY_TEXT_ALIGN_CENTER
                         }));
@@ -120,7 +133,7 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
             }) {
                 if (mobileScreen) {
                 } else {
-//                    Title_Card();
+                    Title_Card();
                 }
             }
         }
