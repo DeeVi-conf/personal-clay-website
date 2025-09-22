@@ -8,6 +8,7 @@
     <link rel="preload" href="fonts/Calistoga-Regular.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="fonts/Quicksand-Semibold.ttf" as="font" type="font/ttf" crossorigin>
     <link rel="preload" href="fonts/FOT-Matisse-Pro-EB.otf" as="font" type="font/otf" crossorigin>
+    <link rel="preload" href="fonts/BebasNeue-Regular.otf" as="font" type="font/otf" crossorigin>
     <title>DeeVi</title>
     <style>
         html, body {
@@ -38,7 +39,14 @@
           font-family: 'Evangelion';
           font-style: normal;
           font-weight: 400;
-          src: url('fonts/FOT-Matisse-Pro-EB.otf') format('truetype');
+          src: url('fonts/FOT-Matisse-Pro-EB.otf') format('opentype');
+        }
+
+        @font-face {
+          font-family: 'BebasNeue-Regular';
+          font-style: normal;
+          font-weight: 400;
+          src: url('fonts/BebasNeue-Regular.otf') format('opentype');
         }
 
         body > canvas {
@@ -85,7 +93,7 @@
         'Quicksand',
         'Calistoga',
         'Evangelion',
-        'Quicksand',
+        'BebasNeue-Regular',
         'Quicksand',
     ];
     let elementCache = {};

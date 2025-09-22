@@ -36,11 +36,11 @@ const Clay_Color COLOR_BLOB_BORDER_3 = (Clay_Color) {225, 138, 50, 255};
 const Clay_Color COLOR_BLOB_BORDER_4 = (Clay_Color) {236, 159, 70, 255};
 const Clay_Color COLOR_BLOB_BORDER_5 = (Clay_Color) {240, 189, 100, 255};
 
-enum typeface {QUICKSAND, CALISTOGA, EVANGELION };
+enum typeface {QUICKSAND, CALISTOGA, EVANGELION , SANS_SERIF};
 
 #define RAYLIB_VECTOR2_TO_CLAY_VECTOR2(vector) (Clay_Vector2) { .x = (vector).x, .y = (vector).y }
 
-Clay_TextElementConfig headerTextConfig = (Clay_TextElementConfig) { .fontId = EVANGELION, .fontSize = 24, .textColor = {255, 230, 255, 255} };
+Clay_TextElementConfig headerTextConfig = (Clay_TextElementConfig) { .fontId = EVANGELION, .fontSize = 24, .textColor = {255, 255, 230, 255} };
 
 typedef struct {
     void* memory;
@@ -110,6 +110,30 @@ void Title_Card() {
                 .lineHeight = 70,
                 .textColor = COLOR_WHITE
             }));
+
+            CLAY({ .id = CLAY_ID("Spacer"), .layout = { .sizing = { .height = CLAY_SIZING_FIXED(100) } } });
+
+            CLAY({
+                .layout = {
+                    .layoutDirection = CLAY_LEFT_TO_RIGHT,
+                    .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT() }, 
+                    .childAlignment = { 0, CLAY_ALIGN_Y_CENTER },
+                }})
+                {
+                CLAY_TEXT(CLAY_STRING(" EPISODE:19"), CLAY_TEXT_CONFIG({
+                    .fontId = SANS_SERIF,
+                    .fontSize = 100,
+                    .lineHeight = 100,
+                    .textColor = COLOR_WHITE
+                }));
+                CLAY({ .id = CLAY_ID("CatchPhraseSpacer"), .layout = { .sizing = { .width = CLAY_SIZING_FIXED(250) } } });
+                CLAY_TEXT(CLAY_STRING("All things are triangles"), CLAY_TEXT_CONFIG({
+                    .fontId = EVANGELION,
+                    .fontSize = 90,
+                    .lineHeight = 80,
+                    .textColor = COLOR_WHITE
+                }));
+            };
         };
         
         CLAY({
@@ -129,6 +153,8 @@ void Title_Card() {
         };
     }
 }
+
+
 
 
 Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
