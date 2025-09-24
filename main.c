@@ -5,42 +5,15 @@
 double windowWidth = 1024, windowHeight = 768;
 float modelPageOneZRotation = 0;
 
-const uint32_t FONT_ID_BODY_16 = 0;
-const uint32_t FONT_ID_TITLE_56 = 1;
-const uint32_t FONT_ID_BODY_24 = 2;
-const uint32_t FONT_ID_BODY_36 = 3;
-const uint32_t FONT_ID_TITLE_36 = 4;
-const uint32_t FONT_ID_MONOSPACE_24 = 5;
-
-const Clay_Color COLOR_LIGHT = (Clay_Color) {244, 235, 230, 255};
-const Clay_Color COLOR_LIGHT_HOVER = (Clay_Color) {224, 215, 210, 255};
-const Clay_Color COLOR_RED = (Clay_Color) {168, 66, 28, 255};
-const Clay_Color COLOR_RED_HOVER = (Clay_Color) {148, 46, 8, 255};
-const Clay_Color COLOR_ORANGE = (Clay_Color) {225, 138, 50, 255};
-const Clay_Color COLOR_BLUE = (Clay_Color) {111, 173, 162, 255};
-const Clay_Color COLOR_WHITE = (Clay_Color) {255, 230, 255, 255};
+const Clay_Color COLOR_WHITE = (Clay_Color) {255, 210, 255, 255};
 const Clay_Color COLOR_BLACK = (Clay_Color) {0, 0, 0, 255};
-
-
-
-// Colors for top stripe
-const Clay_Color COLOR_TOP_BORDER_1 = (Clay_Color) {168, 66, 28, 255};
-const Clay_Color COLOR_TOP_BORDER_2 = (Clay_Color) {223, 110, 44, 255};
-const Clay_Color COLOR_TOP_BORDER_3 = (Clay_Color) {225, 138, 50, 255};
-const Clay_Color COLOR_TOP_BORDER_4 = (Clay_Color) {236, 189, 80, 255};
-const Clay_Color COLOR_TOP_BORDER_5 = (Clay_Color) {240, 213, 137, 255};
-
-const Clay_Color COLOR_BLOB_BORDER_1 = (Clay_Color) {168, 66, 28, 255};
-const Clay_Color COLOR_BLOB_BORDER_2 = (Clay_Color) {203, 100, 44, 255};
-const Clay_Color COLOR_BLOB_BORDER_3 = (Clay_Color) {225, 138, 50, 255};
-const Clay_Color COLOR_BLOB_BORDER_4 = (Clay_Color) {236, 159, 70, 255};
-const Clay_Color COLOR_BLOB_BORDER_5 = (Clay_Color) {240, 189, 100, 255};
+const Clay_Color COLOR_DEBUG = (Clay_Color) {255, 0, 0, 255};
 
 enum typeface {QUICKSAND, CALISTOGA, EVANGELION , SANS_SERIF};
 
 #define RAYLIB_VECTOR2_TO_CLAY_VECTOR2(vector) (Clay_Vector2) { .x = (vector).x, .y = (vector).y }
 
-Clay_TextElementConfig headerTextConfig = (Clay_TextElementConfig) { .fontId = EVANGELION, .fontSize = 24, .textColor = {255, 255, 230, 255} };
+Clay_TextElementConfig headerTextConfig = (Clay_TextElementConfig) { .fontId = EVANGELION, .fontSize = 24, .textColor = {255, 230, 255, 255} };
 
 typedef struct {
     void* memory;
@@ -76,7 +49,7 @@ void Title_Card() {
         .id = CLAY_ID("Title_CARD"),
         .layout = {
             .layoutDirection = CLAY_LEFT_TO_RIGHT,
-            .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT(.min = 900.f) },
+            .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT() },
             .padding = { 32, 32, 0, 0 },
             .childGap = 0 
         }
@@ -84,23 +57,16 @@ void Title_Card() {
         CLAY({
             .layout = {
                 .layoutDirection = CLAY_TOP_TO_BOTTOM,
-                .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT(.min = 900.f) },
+                .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT() },
                 .padding = { 32, 32, 0, 0 },
                 .childGap = 0
             },
             .backgroundColor = COLOR_BLACK,
         }) {
-            CLAY_TEXT(CLAY_STRING("THE"), CLAY_TEXT_CONFIG({
+            CLAY_TEXT(CLAY_STRING("THE\nRENDERING"), CLAY_TEXT_CONFIG({
                 .fontId = EVANGELION,
                 .fontSize = 120,
                 .lineHeight = 80, 
-                .textColor = COLOR_WHITE
-            }));
-
-            CLAY_TEXT(CLAY_STRING("RENDERING"), CLAY_TEXT_CONFIG({
-                .fontId = EVANGELION,
-                .fontSize = 120,
-                .lineHeight = 80,
                 .textColor = COLOR_WHITE
             }));
 
@@ -117,7 +83,7 @@ void Title_Card() {
                 .layout = {
                     .layoutDirection = CLAY_LEFT_TO_RIGHT,
                     .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIT() }, 
-                    .childAlignment = { 0, CLAY_ALIGN_Y_CENTER },
+                    .childAlignment = { 0, CLAY_ALIGN_Y_TOP },
                 }})
                 {
                 CLAY_TEXT(CLAY_STRING(" EPISODE:19"), CLAY_TEXT_CONFIG({
@@ -127,7 +93,7 @@ void Title_Card() {
                     .textColor = COLOR_WHITE
                 }));
                 CLAY({ .id = CLAY_ID("CatchPhraseSpacer"), .layout = { .sizing = { .width = CLAY_SIZING_FIXED(250) } } });
-                CLAY_TEXT(CLAY_STRING("All things are triangles"), CLAY_TEXT_CONFIG({
+                CLAY_TEXT(CLAY_STRING("全ての者は三角形である\nAll things are triangles"), CLAY_TEXT_CONFIG({
                     .fontId = EVANGELION,
                     .fontSize = 90,
                     .lineHeight = 80,
@@ -146,15 +112,34 @@ void Title_Card() {
             },
             .backgroundColor = COLOR_BLACK,
         }) {
-            CLAY_TEXT(CLAY_STRING("武"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
-            CLAY_TEXT(CLAY_STRING("雅"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
-            CLAY_TEXT(CLAY_STRING("将"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 150, .textColor = COLOR_WHITE}));
-            CLAY_TEXT(CLAY_STRING("勝"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 40, .textColor = COLOR_WHITE}));
+            CLAY_TEXT(CLAY_STRING("武\n雅"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
+            CLAY_TEXT(CLAY_STRING(" "), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .lineHeight = 20, .textColor = COLOR_WHITE}));
+            CLAY_TEXT(CLAY_STRING("将\n勝"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
         };
     }
 }
 
-
+void AboutMe(){
+    CLAY({
+        .id = CLAY_ID("About Me"),
+        .layout = {
+            .sizing = {CLAY_SIZING_GROW(), CLAY_SIZING_FIT()},
+            .layoutDirection = CLAY_LEFT_TO_RIGHT,
+        },
+    }){
+        CLAY({
+            .layout = {
+                .layoutDirection = CLAY_TOP_TO_BOTTOM,
+                .sizing = { CLAY_SIZING_FIT()},
+                .padding = { 32, 32, 0, 0 },
+                .childGap = 0,
+                .childAlignment = {CLAY_ALIGN_X_CENTER}
+            }
+        }){
+            CLAY_TEXT(CLAY_STRING("天\n竺\nの\n男\n子"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
+        }
+    }
+}
 
 
 Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
@@ -192,14 +177,15 @@ Clay_RenderCommandArray CreateLayout(bool mobileScreen, float lerpValue) {
                 }
         CLAY({ .id = CLAY_ID("TopBorder"), .layout = { .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_FIXED(4) }}, .backgroundColor = COLOR_WHITE }) {}
         CLAY({ .id = CLAY_ID("OuterScrollContainer"),
-            .layout = { .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM },
-            .clip = { .vertical = true, .childOffset = Clay_GetScrollOffset() },
-            .border = { .width = { .betweenChildren = 2 }, .color = COLOR_RED }
+            .layout = { .sizing = { CLAY_SIZING_GROW(0), CLAY_SIZING_GROW(0) }, .layoutDirection = CLAY_TOP_TO_BOTTOM, .childGap = 0 },
+            .clip = { .vertical = true, .childOffset = Clay_GetScrollOffset(), },
+            //.border = { .width = { .betweenChildren = 2 }, .color = COLOR_WHITE }
             }) {
-                if (mobileScreen) {
-                } else {
-                    Title_Card();
-                }
+                CLAY({ .id = CLAY_ID("Spacer"), .layout = { .sizing = { .height = CLAY_SIZING_FIXED(200) } }, .backgroundColor = COLOR_DEBUG });
+                Title_Card();
+                CLAY({ .id = CLAY_ID("Spacer"), .layout = { .sizing = { .height = CLAY_SIZING_FIXED(250) } }, .backgroundColor = COLOR_DEBUG });
+                AboutMe();
+                CLAY({ .id = CLAY_ID("Spacer"), .layout = { .sizing = { .height = CLAY_SIZING_FIXED(200) } }, .backgroundColor = COLOR_DEBUG });
             }
         }
 
