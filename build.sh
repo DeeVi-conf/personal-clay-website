@@ -19,3 +19,4 @@ clang                                                                     \
 "${project_root}/main.c"
 cp -r "${project_root}/fonts" "${project_root}/build/fonts"
 cp "${project_root}/index.html" "${project_root}/build"
+cp -r "${project_root}/assets" "${project_root}/build"

@@ -2,3 +2,7 @@ This project uses: [Clay](https://github.com/nicbarker/clay) by Nic Barker, and 
 The full credit for clay library and the template used for this website goes to them respectively.
 
 # Personal Portfolio Website
+
+## Directions for Local Run
+python server `python3 -m http.server 8000`
+`bash autobuild.sh` 

@@ -120,12 +120,21 @@ void Title_Card() {
 }
 
 void AboutMe(){
+    Clay_String eva01_1 = CLAY_STRING("assets/eva01-1.png");
+
+    float aspect = 9.0f / 16.0f;
+    float width  = windowWidth;
+    float height = width * aspect;
+
     CLAY({
         .id = CLAY_ID("About Me"),
         .layout = {
-            .sizing = {CLAY_SIZING_GROW(), CLAY_SIZING_FIT()},
+            .sizing = {CLAY_SIZING_GROW(), CLAY_SIZING_FIXED(height)},
             .layoutDirection = CLAY_LEFT_TO_RIGHT,
         },
+        .image = {
+            .imageData = &eva01_1
+        }
     }){
         CLAY({
             .layout = {
@@ -136,7 +145,22 @@ void AboutMe(){
                 .childAlignment = {CLAY_ALIGN_X_CENTER}
             }
         }){
-            CLAY_TEXT(CLAY_STRING("天\n竺\nの\n男\n子"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
+            CLAY_TEXT(CLAY_STRING("天\n竺\n \n男\n子\n \n青\n星\n "), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
+        }
+
+        CLAY({
+            .layout = {
+                .layoutDirection = CLAY_TOP_TO_BOTTOM,
+                .sizing = { CLAY_SIZING_FIT()},
+                .padding = { 32, 32, 0, 0 },
+                .childGap = 50,
+                .childAlignment = {CLAY_ALIGN_X_LEFT}
+            }
+        }){
+            CLAY_TEXT(CLAY_STRING("First Sin of Man;\nPlucked from a Heaven,\nThat never was."), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
+
+            CLAY_TEXT(CLAY_STRING("手を取って\n小さい鳥よ\n君は飛ぶことができない"), CLAY_TEXT_CONFIG({.fontId = EVANGELION, .fontSize = 120, .lineHeight = 90, .textColor = COLOR_WHITE}));
+
         }
     }
 }
@@ -242,9 +266,4 @@ CLAY_WASM_EXPORT("UpdateDrawFrame") Clay_RenderCommandArray UpdateDrawFrame(floa
     }
     return CreateLayout(isMobileScreen, animationLerpValue < 0 ? (animationLerpValue + 1) : (1 - animationLerpValue));
     //----------------------------------------------------------------------------------
-}
-
-// Dummy main() to please cmake - TODO get wasm working with cmake on this example
-int main() {
-    return 0;
 }
